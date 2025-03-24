@@ -6,12 +6,10 @@
 #include <boost/thread.hpp>
 #include <boost/ref.hpp>
 
-// Функция для сортировки части массива
 void sort_part(std::vector<int>& data, size_t start, size_t end) {
     std::sort(data.begin() + start, data.begin() + end);
 }
 
-// Параллельная сортировка
 void parallel_sort(std::vector<int>& data, int num_threads) {
     if (num_threads <= 0) num_threads = 1;
     size_t part_size = data.size() / num_threads;
@@ -40,16 +38,12 @@ void parallel_sort(std::vector<int>& data, int num_threads) {
 int main() {
     const int size = 1000000;
     std::vector<int> data(size);
-
-    // Инициализация генератора случайных чисел
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 999999);
 
-    // Заполнение массива случайными числами
     std::generate(data.begin(), data.end(), [&]() { return dist(gen); });
-
-    // Тестирование
+    
     for (int threads : {1, 2, 4, 8}) {
         std::vector<int> copy = data;
 
